@@ -85,3 +85,15 @@ Steps
     * if the header is correct lets proceed
     * else return 403
     
+
+
+mkdir common 
+cd common
+npm init -y
+npx tsc --init
+change all the tsconfig as required (rootDir, outDir, declerations)
+npm login
+tsc -b
+change package.json main to dist/index.js
+npm publish --access public
+add .npmignore
