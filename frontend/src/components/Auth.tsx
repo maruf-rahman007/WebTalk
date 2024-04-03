@@ -1,12 +1,26 @@
 import { ChangeEvent, ChangeEventHandler, EventHandler, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { SigninInput, SignupInput } from "@maruf.rahman/mediuminput"
+import axios from "axios"
+import { BACKEND_URL } from "../config"
 export const Auth = ({type}:{type:"signin"|"signup"}) => {
     const [postInput,setPostInput] = useState<SignupInput>({
         username:"",
         email:"",
         password:""
     })
+    const navigate = useNavigate();
+
+    async function sendRequest(){
+        try {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInput)
+            const jwt = response.data.token;
+            localStorage.setItem("token",jwt);
+            navigate("/blogs")
+        } catch (error) {
+            alert("Eroor Happend while signin")
+        }
+    }
     return <div className="h-screen flex justify-center flex-col">
         <div className="flex justify-center">
             <div>
@@ -20,25 +34,25 @@ export const Auth = ({type}:{type:"signin"|"signup"}) => {
                     </div>
                 </div>
                 <div className="pt-8">
-                    <LabelledInput label="Username" placeholder="Maruf" onChange={(e)=>{
+                    { type==="signup"?<LabelledInput label="Username" placeholder="Maruf" onChange={(e)=>{
                         setPostInput(c=>({
                             ...c,
                             username:e.target.value
                         }))
-                    }} />
+                    }} /> :null}
                     <LabelledInput label="Email" placeholder="maruf@gmail.com" onChange={(e)=>{
                         setPostInput(c=>({
                             ...c,
-                            username:e.target.value
+                            email:e.target.value
                         }))
                     }} />
                     <LabelledInput label="Password" type="password" placeholder="@tangoMike12" onChange={(e)=>{
                         setPostInput(c=>({
                             ...c,
-                            username:e.target.value
+                            password:e.target.value
                         }))
                     }} />
-                    <button type="button" className="mt-8 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{type === "signup"?"Sign Up":"Sign In"}</button>
+                    <button onClick={sendRequest} type="button" className="mt-8 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{type === "signup"?"Sign Up":"Sign In"}</button>
 
                 </div>
             </div>
