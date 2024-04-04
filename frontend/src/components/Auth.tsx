@@ -1,8 +1,7 @@
-import { ChangeEvent, ChangeEventHandler, EventHandler, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { SigninInput, SignupInput } from "@maruf.rahman/mediuminput"
+import { SignupInput } from "@maruf.rahman/mediuminput"
 import axios from "axios"
-import { BACKEND_URL } from "../config"
 export const Auth = ({type}:{type:"signin"|"signup"}) => {
     const [postInput,setPostInput] = useState<SignupInput>({
         username:"",
@@ -13,7 +12,7 @@ export const Auth = ({type}:{type:"signin"|"signup"}) => {
 
     async function sendRequest(){
         try {
-            const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInput)
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInput)
             const jwt = response.data.token;
             localStorage.setItem("token",jwt);
             navigate("/blogs")

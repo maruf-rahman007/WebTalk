@@ -1,4 +1,5 @@
 import { FullBlog } from "../components/FullBlog";
+import { FullBlogSkeliton } from "../components/FullBlogSkeliton";
 import { useBlog } from "../hooks";
 import { useParams } from "react-router-dom";
 export const Blog = () => {
@@ -7,9 +8,9 @@ export const Blog = () => {
         id:id || ""
     });
     
-    if(loading){
+    if(loading || !blog){
         return <div>
-            loading...
+            <FullBlogSkeliton />
         </div>
     }
     return <div>
