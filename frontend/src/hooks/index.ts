@@ -50,3 +50,14 @@ export const useBlog = ({id}:{id:string})=>{
         blog
     }
 }
+
+
+export const useAuth = () => {
+    const initialStatus = localStorage.getItem("isLoggedin");
+    const [isLoggedIn, setIsLoggedIn] = useState(initialStatus === "true");
+
+    return {
+        isLoggedIn,
+        setIsLoggedIn
+    };
+};

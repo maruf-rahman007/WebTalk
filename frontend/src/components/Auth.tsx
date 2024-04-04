@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { SignupInput } from "@maruf.rahman/mediuminput"
 import axios from "axios"
+import { useAuth } from "../hooks"
 export const Auth = ({type}:{type:"signin"|"signup"}) => {
     const [postInput,setPostInput] = useState<SignupInput>({
         username:"",
@@ -9,12 +10,14 @@ export const Auth = ({type}:{type:"signin"|"signup"}) => {
         password:""
     })
     const navigate = useNavigate();
-
+    const { setIsLoggedIn } = useAuth()
     async function sendRequest(){
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInput)
             const jwt = response.data.token;
             localStorage.setItem("token",jwt);
+            setIsLoggedIn(true)
+            localStorage.setItem("isLoggedin","true");
             navigate("/blogs")
         } catch (error) {
             alert("Eroor Happend while signin")

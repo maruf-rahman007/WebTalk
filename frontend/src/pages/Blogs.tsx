@@ -1,11 +1,19 @@
+import { useEffect } from "react";
 import { Appbar } from "../components/Appbar"
 import { BlogCard } from "../components/BlogCard"
 import { BlogSkeleton } from "../components/Blogskeliton";
-import { useBlogs } from "../hooks"
+import { useAuth, useBlogs } from "../hooks"
+import { useNavigate } from "react-router-dom";
 
 export const Blogs = () => {
     const {loading, blogs} = useBlogs();
-
+    const { isLoggedIn } = useAuth();
+    const navigate = useNavigate()
+    if(!isLoggedIn) {
+        useEffect(()=>{
+            navigate('/signin')
+        },[])
+    }
     if (loading) {
         return <div>
             <Appbar /> 
