@@ -12,11 +12,15 @@
   "dependencies": {
     "@maruf.rahman/mediuminput": "^1.0.0",
     "axios": "^1.6.8",
+    "dompurify": "^3.0.11",
+    "jodit-react": "^4.0.15",
+    "quill": "^2.0.0-rc.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.5",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
