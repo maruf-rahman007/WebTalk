@@ -1,7 +1,7 @@
 import { Appbar } from "../components/Appbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ChangeEvent, useState } from "react";
+import {  useState } from "react";
 import JoditEditor from "jodit-react";
 import { useRef } from "react";
 
