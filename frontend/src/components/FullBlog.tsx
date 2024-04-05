@@ -1,10 +1,24 @@
+import { useEffect, useState } from 'react';
 import { Blog } from "../hooks";
 import { Appbar } from "./Appbar";
 import { Avater } from "./BlogCard";
-import DOMPurify from "dompurify";
 
 export const FullBlog = ({ blog }: { blog: Blog }) => {
-  const sanitizedContent = DOMPurify.sanitize(blog.content);
+  const [sanitizedContent, setSanitizedContent] = useState<string | null>(null);
+
+  useEffect(() => {
+    import('dompurify').then((module) => {
+      const DOMPurify = module.default;
+      const sanitized = DOMPurify.sanitize(blog.content);
+      setSanitizedContent(sanitized);
+    }).catch((error) => {
+      console.error('Failed to load DOMPurify:', error);
+    });
+  }, [blog.content]);
+
+  if (!sanitizedContent) {
+    return null; // Or render a loading state
+  }
 
   return (
     <div>
