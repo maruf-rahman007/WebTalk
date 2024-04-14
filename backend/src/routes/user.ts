@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { jwt, sign, verify } from 'hono/jwt'
 import { signininput, signupinput } from "@maruf.rahman/mediuminput";
-
+import bcypt from 'bcryptjs'
 
 
 export const userRouter = new Hono<{
@@ -27,11 +27,12 @@ userRouter.post('/signup', async (c) => {
         message:"Invalid inputs "
       })
     }
+    const hashedPassword = await bcypt.hash(body.password,10);
     try {
       const user = await prisma.user.create({
         data: {
           email: body.email,
-          password: body.password,
+          password: hashedPassword,
           name:body.username
         },
       })
@@ -66,8 +67,7 @@ userRouter.post('/signup', async (c) => {
     try {
       const user = await prisma.user.findUnique({
         where: {
-          email:body.email,
-          password:body.password
+          email:body.email
         }
       });
     
@@ -77,7 +77,13 @@ userRouter.post('/signup', async (c) => {
           error:"Invalid username and Password"
         })
       }
-    
+      const isValid = await bcypt.compare(body.password,user.password);
+      if(!isValid){
+        c.status(403);
+        return c.json({
+          error:"Invalid username and Password"
+        })
+      }
       const token = await sign({id:user.id},c.env.JWT_SECRET)
       return c.json({
         token:token
