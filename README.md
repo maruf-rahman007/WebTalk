@@ -1,63 +1,119 @@
+
+![Logo](./frontend/static/logo2.png)
+
+
 # WebTalk
 
-A simple blogging application using Serverless backend. 
+WebTalk is a modern blogging application with a serverless backend, built using React for the frontend and Hono, a lightweight serverless framework, for the backend. It utilizes CloudFrontWorkers for enhanced content delivery and PostgreSQL hosted on Aiven.io as the database. WebTalk aims to provide a hassle-free setup and robust performance for bloggers and content creators.
 
-# Serverless Blog Application with CloudFront
 
-This is a serverless backend setup for a blog application, utilizing CloudFrontWorkers . The backend is powered by Hono, a lightweight serverless framework, and uses PostgreSQL as the database hosted on Aiven.io. Prisma is employed for database ORM (Object-Relational Mapping) functionalities, and JWT (JSON Web Tokens) is used for authentication.
+## Features
 
-## Endpoints
+- User Management: Seamless signup and signin processes with JWT authentication.
+- Blog Management: Easy creation, updating, and retrieval of blog posts.
+- Rich Text Editing: Integration with popular rich text editor libraries such as Jodit and Quill.
+- Input Validation: Utilizes Zod for input validation on both frontend and backend.
+- Scalability: Serverless architecture ensures scalability to handle varying traffic demands effortlessly.
 
-### User Management
 
-#### Signup
-- **Method:** POST
-- **Endpoint:** `/api/v1/signup`
-- **Description:** Allows users to create a new account by providing necessary details like username, email, and password.
+## Tech Stack
 
-#### Signin
-- **Method:** POST
-- **Endpoint:** `/api/v1/signin`
-- **Description:** Allows registered users to sign in by providing their credentials (email/username and password).
+**Client:** React, React Router Dom, TailwindCSS, Axios, Zod, Jodit, Quill, Dompurify
 
-### Blog Management
+**Server:** Hono, CloudFlare Worker, Prisma, Prisma-accelerate, BcryptJs, Zod
 
-#### Create Blog
-- **Method:** POST
-- **Endpoint:** `/api/v1/blog`
-- **Description:** Enables users to create new blog posts. Requires authentication with a valid JWT token.
 
-#### Update Blog
-- **Method:** PUT
-- **Endpoint:** `/api/v1/blog`
-- **Description:** Allows users to update existing blog posts. Authentication with a valid JWT token is required.
+## Deployment
 
-#### Get Specific Blog
-- **Method:** GET
-- **Endpoint:** `/api/v1/blog/:id`
-- **Description:** Retrieves a specific blog post identified by its unique ID.
+Frontend - Vercel
 
-## Technologies Used
+Backend - Cloudflare 
 
-- **Serverless Framework:** [Hono](hono.dev)
-- **Database:** PostgreSQL hosted on [Aiven](aiven.io)
-- **ORM:** Prisma
-- **Authentication:** JWT (JSON Web Tokens)
+Database - Aiven
 
-## Setup Instructions
 
-1. Clone this repository to your local machine.
-    ` git clone https://github.com/maruf-rahman007/WebTalk.git `
-    ` cd backend `
-2. Install dependencies by running `npm install`.
-3. Configure your environment variables:
-   - Ensure you have AWS credentials configured.
-   - Set up your PostgreSQL database connection details in the Prisma configuration file.
-4. Deploy the serverless backend using Hono.
-5. Ensure necessary permissions and security configurations are set up in AWS IAM.
-6. You're ready to start using the blog application!
+## Environment Variables
 
-## Contributing
+To run this project, you will need to add the following environment variables to your .env file
 
-Contributions are welcome! If you have suggestions or find any issues, feel free to open an issue or submit a pull request.
+`Prisma Accelerate api key `-> You can get it from [Here](https://www.prisma.io/data-platform/accelerate)
+
+`Postgress Database`
+
+`JWTSECREAT`
+
+`BACKENDURL`
+
+
+
+## Installation
+
+Install my-project with npm
+
+```bash
+  git clone https://github.com/maruf-rahman007/WebTalk.git
+```
+```bash
+  cd WebTalk
+```
+```bash
+  cd backend
+```
+```bash 
+  npm install
+```
+Create a  wrangler.toml file and paste the following 
+```
+name = "backend"
+compatibility_date = "2023-12-01"
+
+[vars]
+DATABASE_URL="your-prisma-accelerate-url"
+JWT_SECRET="jwtsecreat"
+```
+Create a .env and paste the following 
+```
+DATABASE_URL="your-DATABASE_URL"
+
+```
+```bash
+npx prisma migrate dev --name init_schema
+
+```
+```bash
+npx prisma generate --no-engine
+
+```
+
+```bash
+npm run dev
+
+```
+Copy the url and open another terminal 
+```bash
+cd frontend
+```
+```bash
+npm install
+
+```
+Create a .env and paste the following 
+
+```
+VITE_BACKEND_URL = "your backend url"
+
+```
+
+```bash
+npm run dev
+```
+Now you are good to go 
+## Authors
+
+- [@maruf-rahman007](https://github.com/maruf-rahman007)
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at marufrahman.dev@gmail.com
 
